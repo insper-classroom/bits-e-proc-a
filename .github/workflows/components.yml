@@ -51,3 +51,7 @@ jobs:
         -name: test demux8way
           run: |
             pytest hw/test_components.py -k demux8way
+
+        -name: test bin2bcd
+          run: |
+            pytest hw/test_components.py -k bin2bcd

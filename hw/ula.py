@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from operator import concat
+from signal import Signals
 from myhdl import *
 
 
