@@ -3,6 +3,7 @@
 from operator import concat
 from signal import Signals
 from myhdl import *
+from .components import *
 
 
 @block
@@ -23,11 +24,11 @@ def ula(x, y, c, zr, ng, saida, width=16):
     c_ny = c(2)
     c_f = c(1)
     c_no = c(0)
-
+    
     @always_comb
     def comb():
         pass
-
+    
     return instances()
 
 
@@ -37,8 +38,10 @@ def ula(x, y, c, zr, ng, saida, width=16):
 def inversor(z, a, y):
     @always_comb
     def comb():
-        pass
-
+        if z == 1:
+            y.next = ~a
+        else:
+            y.next = a
     return instances()
 
 
@@ -47,7 +50,15 @@ def comparador(a, zr, ng, width):
     # width insica o tamanho do vetor a
     @always_comb
     def comb():
-        pass
+        if a == 0:
+            zr.next = 1
+        else:
+            zr.next = 0
+
+        if a[width-1] == 1:
+            ng.next = 1
+        else:
+            ng.next = 0
 
     return instances()
 
@@ -56,7 +67,10 @@ def comparador(a, zr, ng, width):
 def zerador(z, a, y):
     @always_comb
     def comb():
-        pass
+        if z == 1:
+            y.next = 0
+        else:
+            y.next = a
 
     return instances()
 
@@ -65,7 +79,7 @@ def zerador(z, a, y):
 def add(a, b, q):
     @always_comb
     def comb():
-        pass
+        q.next = a + b
 
     return instances()
 
@@ -74,10 +88,17 @@ def add(a, b, q):
 def inc(a, q):
     @always_comb
     def comb():
-        pass
+        q.next = a + 1
 
     return instances()
 
+@block
+def x_and_y(a, b, q):
+    @always_comb
+    def comb():
+        q.next = a and b
+
+    return instances()
 
 # ----------------------------------------------
 # Conceito B
@@ -102,15 +123,10 @@ def halfAdder(a, b, soma, carry):
 
 @block
 def fullAdder(a, b, c, soma, carry):
-    s = [Signal(bool(0)) for i in range(3)]
-    haList = [None for i in range(2)]
-
-    haList[0] = halfAdder(a, b, s[0], s[1])  # 2
-    haList[1] = halfAdder(c, s[0], soma, s[2])  # 3
 
     @always_comb
     def comb():
-        carry.next = s[1] | s[2]  # 4
+        pass
 
     return instances()
 
