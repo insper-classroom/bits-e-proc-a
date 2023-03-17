@@ -353,8 +353,6 @@ def bin2bcd(b, bcd1, bcd0):
     def comb():
         bcd1.next = tens[b]
         bcd0.next = ones[b]
-        bcd1.next = DIG0[int(b)]
-        bcd0.next = DIG1[int(b)]
 
     return comb
 # -----------------------------#

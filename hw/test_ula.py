@@ -162,6 +162,7 @@ def test_add():
         for i in range(256):
             a.next, b.next = [randrange(2**15 - 1) for i in range(2)]
             yield delay(1)
+            # print(a,b,q)
             assert q == a + b
 
     sim = Simulation(add16_1, stimulus)
